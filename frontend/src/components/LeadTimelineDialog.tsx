@@ -48,7 +48,7 @@ function DialogBody({ summary }: { summary: LeadSummary }) {
   return (
     <Dialog.Content
       aria-describedby={undefined}
-      className="fixed top-1/2 left-1/2 z-50 flex max-h-[min(44rem,calc(100dvh-2rem))] w-[min(40rem,calc(100vw-1.5rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl bg-paper shadow-dialog data-[state=closed]:animate-dialog-out data-[state=open]:animate-dialog-in"
+      className="fixed inset-0 z-50 m-auto flex h-fit max-h-[min(44rem,calc(100dvh-2rem))] w-[min(40rem,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-2xl bg-paper shadow-dialog data-[state=closed]:animate-dialog-out data-[state=open]:animate-dialog-in"
     >
       <header className="flex flex-col gap-4 border-b border-line bg-surface px-6 pt-5 pb-4">
         <div className="flex items-start justify-between gap-4">

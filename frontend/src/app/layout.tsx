@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Hanken_Grotesk, Sora } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import "./globals.css";
 
-const hanken = Hanken_Grotesk({
-  variable: "--font-hanken",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-});
-
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${hanken.variable} ${sora.variable} h-full`}>
+    <html lang="en" className={`${poppins.variable} h-full`}>
       <body className="min-h-full">
         <Providers>{children}</Providers>
       </body>

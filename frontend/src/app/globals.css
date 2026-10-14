@@ -29,8 +29,8 @@
   --color-lost-bg: oklch(0.94 0.008 255);
   --color-lost-fg: oklch(0.45 0.015 255);
 
-  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 
   --shadow-surface:
     0 0 0 1px oklch(0.2 0.02 255 / 0.07), 0 1px 2px oklch(0.2 0.02 255 / 0.05),

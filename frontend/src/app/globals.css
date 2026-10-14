@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: oklch(0.972 0.008 85);
+  --color-paper-deep: oklch(0.945 0.01 85);
+  --color-surface: oklch(0.995 0.004 85);
+  --color-ink: oklch(0.2 0.02 255);
+  --color-ink-muted: oklch(0.46 0.018 255);
+  --color-line: oklch(0.91 0.01 85);
+  --color-line-strong: oklch(0.82 0.012 85);
+  --color-accent: oklch(0.4 0.085 170);
+  --color-accent-strong: oklch(0.33 0.08 170);
+  --color-accent-soft: oklch(0.94 0.03 170);
+  --color-today: oklch(0.38 0.08 70);
+  --color-today-soft: oklch(0.955 0.05 88);
+  --color-danger: oklch(0.5 0.19 27);
+  --color-danger-soft: oklch(0.955 0.035 27);
+
+  --color-new-bg: oklch(0.94 0.03 245);
+  --color-new-fg: oklch(0.38 0.1 255);
+  --color-contacted-bg: oklch(0.95 0.05 90);
+  --color-contacted-fg: oklch(0.4 0.09 75);
+  --color-qualified-bg: oklch(0.94 0.045 185);
+  --color-qualified-fg: oklch(0.37 0.08 190);
+  --color-proposal-bg: oklch(0.94 0.04 305);
+  --color-proposal-fg: oklch(0.38 0.12 305);
+  --color-won-bg: oklch(0.93 0.06 150);
+  --color-won-fg: oklch(0.36 0.1 150);
+  --color-lost-bg: oklch(0.94 0.008 255);
+  --color-lost-fg: oklch(0.45 0.015 255);
+
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-surface:
+    0 0 0 1px oklch(0.2 0.02 255 / 0.07), 0 1px 2px oklch(0.2 0.02 255 / 0.05),
+    0 6px 16px -8px oklch(0.2 0.02 255 / 0.08);
+  --shadow-control: 0 0 0 1px oklch(0.2 0.02 255 / 0.12), 0 1px 1px oklch(0.2 0.02 255 / 0.05);
+  --shadow-dialog:
+    0 0 0 1px oklch(0.2 0.02 255 / 0.08), 0 2px 4px oklch(0.2 0.02 255 / 0.06),
+    0 24px 60px -12px oklch(0.2 0.02 255 / 0.28);
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --animate-dialog-in: dialog-in 200ms var(--ease-out-strong);
+  --animate-dialog-out: dialog-out 130ms var(--ease-out-strong) forwards;
+  --animate-fade-in: fade-in 180ms var(--ease-out-strong);
+  --animate-fade-out: fade-out 130ms var(--ease-out-strong) forwards;
+  --animate-entry-in: entry-in 260ms var(--ease-out-strong);
+  --animate-pulse-soft: pulse-soft 1.4s ease-in-out infinite;
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 8px)) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes dialog-out {
+  to {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 4px)) scale(0.98);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes entry-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes pulse-soft {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @keyframes dialog-out {
+    to {
+      opacity: 0;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  @keyframes entry-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  :root {
+    --animate-pulse-soft: none;
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-paper);
+  scrollbar-color: var(--color-line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-surface);
+}
+
+input,
+textarea {
+  caret-color: var(--color-accent);
+}
+
+::placeholder {
+  color: oklch(0.5 0.016 255);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+input[type="date"],
+input[type="time"] {
+  font-variant-numeric: tabular-nums;
+}

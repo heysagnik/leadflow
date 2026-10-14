@@ -31,6 +31,29 @@ export function timeAgo(iso: string, now: Date): string {
   return plural(Math.floor(elapsed / YEAR_MS), "year");
 }
 
+export function isStale(iso: string, now: Date, afterDays: number): boolean {
+  return now.getTime() - new Date(iso).getTime() >= afterDays * DAY_MS;
+}
+
+export function formatGap(fromIso: string, toIso: string): string | null {
+  const gap = new Date(fromIso).getTime() - new Date(toIso).getTime();
+  if (gap < HOUR_MS) return null;
+  if (gap < DAY_MS) return `${Math.floor(gap / HOUR_MS)}h`;
+  if (gap < 14 * DAY_MS) return `${Math.floor(gap / DAY_MS)}d`;
+  if (gap < 60 * DAY_MS) return `${Math.floor(gap / WEEK_MS)}w`;
+  return `${Math.floor(gap / MONTH_MS)}mo`;
+}
+
+export function presetFollowUpIso(daysAhead: number, now: Date): string {
+  const target = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + daysAhead,
+    DEFAULT_FOLLOW_UP_HOUR,
+  );
+  return target.toISOString();
+}
+
 export function isSameLocalDay(a: Date, b: Date): boolean {
   return (
     a.getFullYear() === b.getFullYear() &&

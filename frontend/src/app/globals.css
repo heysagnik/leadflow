@@ -1,44 +1,46 @@
 @import "tailwindcss";
 
 @theme {
-  --color-paper: oklch(0.972 0.008 85);
-  --color-paper-deep: oklch(0.945 0.01 85);
-  --color-surface: oklch(0.995 0.004 85);
-  --color-ink: oklch(0.2 0.02 255);
-  --color-ink-muted: oklch(0.46 0.018 255);
-  --color-line: oklch(0.91 0.01 85);
-  --color-line-strong: oklch(0.82 0.012 85);
-  --color-accent: oklch(0.4 0.085 170);
-  --color-accent-strong: oklch(0.33 0.08 170);
-  --color-accent-soft: oklch(0.94 0.03 170);
-  --color-today: oklch(0.38 0.08 70);
-  --color-today-soft: oklch(0.955 0.05 88);
-  --color-danger: oklch(0.5 0.19 27);
-  --color-danger-soft: oklch(0.955 0.035 27);
+  --color-ground: oklch(0.965 0.008 245);
+  --color-wash: oklch(0.94 0.012 248);
+  --color-surface: oklch(0.995 0.002 245);
+  --color-ink: oklch(0.22 0.045 255);
+  --color-ink-muted: oklch(0.45 0.03 255);
+  --color-rule: oklch(0.9 0.012 250);
+  --color-rule-strong: oklch(0.8 0.02 250);
 
-  --color-new-bg: oklch(0.94 0.03 245);
-  --color-new-fg: oklch(0.38 0.1 255);
-  --color-contacted-bg: oklch(0.95 0.05 90);
-  --color-contacted-fg: oklch(0.4 0.09 75);
-  --color-qualified-bg: oklch(0.94 0.045 185);
-  --color-qualified-fg: oklch(0.37 0.08 190);
-  --color-proposal-bg: oklch(0.94 0.04 305);
-  --color-proposal-fg: oklch(0.38 0.12 305);
-  --color-won-bg: oklch(0.93 0.06 150);
-  --color-won-fg: oklch(0.36 0.1 150);
-  --color-lost-bg: oklch(0.94 0.008 255);
-  --color-lost-fg: oklch(0.45 0.015 255);
+  --color-bar: oklch(0.24 0.055 255);
+  --color-bar-ink: oklch(0.97 0.01 245);
+  --color-bar-muted: oklch(0.8 0.03 250);
 
-  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --color-flag: oklch(0.74 0.17 55);
+  --color-flag-strong: oklch(0.69 0.18 52);
+  --color-flag-soft: oklch(0.955 0.05 70);
+  --color-flag-ink: oklch(0.4 0.1 50);
+  --color-danger: oklch(0.5 0.2 25);
+  --color-danger-soft: oklch(0.955 0.03 25);
+  --color-stale: oklch(0.47 0.12 65);
 
-  --shadow-surface:
-    0 0 0 1px oklch(0.2 0.02 255 / 0.07), 0 1px 2px oklch(0.2 0.02 255 / 0.05),
-    0 6px 16px -8px oklch(0.2 0.02 255 / 0.08);
-  --shadow-control: 0 0 0 1px oklch(0.2 0.02 255 / 0.12), 0 1px 1px oklch(0.2 0.02 255 / 0.05);
+  --color-new-bg: oklch(0.93 0.035 245);
+  --color-new-fg: oklch(0.38 0.12 255);
+  --color-contacted-bg: oklch(0.95 0.07 100);
+  --color-contacted-fg: oklch(0.42 0.1 85);
+  --color-qualified-bg: oklch(0.93 0.04 205);
+  --color-qualified-fg: oklch(0.37 0.08 215);
+  --color-proposal-bg: oklch(0.93 0.045 300);
+  --color-proposal-fg: oklch(0.38 0.13 300);
+  --color-won-bg: oklch(0.9 0.09 145);
+  --color-won-fg: oklch(0.33 0.1 145);
+  --color-lost-bg: oklch(0.93 0.01 250);
+  --color-lost-fg: oklch(0.45 0.02 250);
+
+  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-barlow-condensed), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-redhat-mono), ui-monospace, monospace;
+
   --shadow-dialog:
-    0 0 0 1px oklch(0.2 0.02 255 / 0.08), 0 2px 4px oklch(0.2 0.02 255 / 0.06),
-    0 24px 60px -12px oklch(0.2 0.02 255 / 0.28);
+    0 0 0 1px oklch(0.22 0.045 255 / 0.12), 0 2px 6px oklch(0.22 0.045 255 / 0.08),
+    0 28px 64px -16px oklch(0.22 0.045 255 / 0.4);
 
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 
@@ -53,7 +55,7 @@
 @keyframes dialog-in {
   from {
     opacity: 0;
-    transform: translate(-50%, calc(-50% + 8px)) scale(0.96);
+    transform: translate(-50%, calc(-50% + 8px)) scale(0.97);
   }
   to {
     opacity: 1;
@@ -128,15 +130,16 @@
 }
 
 html {
-  background: var(--color-paper);
-  scrollbar-color: var(--color-line-strong) transparent;
+  background: var(--color-ground);
+  scrollbar-color: var(--color-rule-strong) transparent;
   scrollbar-width: thin;
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-ground);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 15px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -153,22 +156,27 @@ p {
 }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-surface);
+  background: var(--color-flag);
+  color: var(--color-ink);
 }
 
 input,
-textarea {
-  caret-color: var(--color-accent);
+textarea,
+select {
+  caret-color: var(--color-flag-strong);
 }
 
 ::placeholder {
-  color: oklch(0.5 0.016 255);
+  color: oklch(0.5 0.03 255);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
+}
+
+.on-bar:focus-visible {
+  outline-color: var(--color-flag);
 }
 
 input[type="date"],

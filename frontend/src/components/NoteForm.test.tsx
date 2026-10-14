@@ -46,7 +46,7 @@ describe("NoteForm", () => {
     renderWithClient(<NoteForm leadId={7} canSetFollowUp />);
 
     await userEvent.type(screen.getByLabelText("Log a new discussion"), "Send deck");
-    await userEvent.click(screen.getByLabelText("Set follow-up"));
+    await userEvent.click(screen.getByLabelText("Tomorrow"));
     await userEvent.click(screen.getByRole("button", { name: "Save note" }));
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
@@ -57,6 +57,16 @@ describe("NoteForm", () => {
   it("hides the follow-up option for closed leads", () => {
     renderWithClient(<NoteForm leadId={1} canSetFollowUp={false} />);
 
-    expect(screen.queryByLabelText("Set follow-up")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Tomorrow")).not.toBeInTheDocument();
+  });
+
+  it("reveals date and time inputs for a custom follow-up", async () => {
+    renderWithClient(<NoteForm leadId={1} canSetFollowUp />);
+
+    expect(screen.queryByLabelText("Follow-up date")).not.toBeInTheDocument();
+    await userEvent.click(screen.getByLabelText("Pick date…"));
+
+    expect(screen.getByLabelText("Follow-up date")).toBeInTheDocument();
+    expect(screen.getByLabelText("Follow-up time")).toBeInTheDocument();
   });
 });

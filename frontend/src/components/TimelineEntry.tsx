@@ -1,38 +1,65 @@
 import { CalendarClock } from "lucide-react";
 import { ICON_STROKE } from "@/lib/constants";
-import { formatDateTime, timeAgo } from "@/lib/time";
+import { formatDateTime, formatGap } from "@/lib/time";
+import { gapSpacingClass } from "@/lib/timeline";
 import type { Discussion } from "@/lib/types";
 
 interface TimelineEntryProps {
   entry: Discussion;
-  now: Date;
+  newer: Discussion | null;
   latest: boolean;
   isNew: boolean;
 }
 
-export function TimelineEntry({ entry, now, latest, isNew }: TimelineEntryProps) {
+const dayFormat = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+const timeFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" });
+
+export function TimelineEntry({ entry, newer, latest, isNew }: TimelineEntryProps) {
+  const created = new Date(entry.created_at);
+  const gapLabel = newer ? formatGap(newer.created_at, entry.created_at) : null;
+
   return (
-    <li className={`relative pb-6 pl-7 last:pb-0 ${isNew ? "animate-entry-in" : ""}`}>
-      <span
-        aria-hidden
-        className={`absolute top-1.5 left-0 size-2.5 rounded-full ring-4 ring-paper ${latest ? "bg-accent" : "bg-line-strong"}`}
-      />
-      <p className="mb-1.5 text-xs text-ink-muted tabular-nums">
-        <time dateTime={entry.created_at}>{formatDateTime(entry.created_at)}</time>
-        <span className="ml-2">({timeAgo(entry.created_at, now)})</span>
-      </p>
-      <div className="rounded-xl bg-surface px-4 py-3 shadow-control">
-        <p
-          className={`text-[15px] leading-relaxed whitespace-pre-wrap ${entry.is_system ? "text-ink-muted italic" : ""}`}
+    <li className={isNew ? "animate-entry-in" : ""}>
+      {newer && (
+        <div
+          aria-hidden
+          className={`relative ${gapSpacingClass(newer.created_at, entry.created_at)}`}
         >
-          {entry.note}
-        </p>
-        {entry.follow_up_at && (
-          <p className="mt-2.5 inline-flex items-center gap-1.5 rounded-md bg-accent-soft px-2 py-1 text-xs font-semibold text-accent-strong tabular-nums">
-            <CalendarClock aria-hidden className="size-3.5" strokeWidth={ICON_STROKE} />
-            Follow-up set for {formatDateTime(entry.follow_up_at)}
+          {gapLabel && (
+            <span className="absolute top-1/2 left-[5rem] -translate-x-1/2 -translate-y-1/2 bg-ground px-1 font-mono text-[11px] leading-none font-medium text-ink-muted">
+              +{gapLabel}
+            </span>
+          )}
+        </div>
+      )}
+      <div className="grid grid-cols-[4.25rem_1.5rem_minmax(0,1fr)] items-start">
+        <div className="pt-0.5 text-right font-mono text-[11px] leading-snug text-ink-muted">
+          <time dateTime={entry.created_at} className="block">
+            <span className="block text-xs font-semibold text-ink">
+              {dayFormat.format(created)}
+            </span>
+            {timeFormat.format(created)}
+          </time>
+        </div>
+        <div className="relative flex justify-center pt-1.5">
+          <span
+            aria-hidden
+            className={`z-10 size-3 ${latest ? "bg-flag" : "border-2 border-ink bg-ground"}`}
+          />
+        </div>
+        <div className="rounded-md border border-rule bg-surface px-4 py-3">
+          <p
+            className={`text-base leading-relaxed whitespace-pre-wrap ${entry.is_system ? "text-ink-muted italic" : ""}`}
+          >
+            {entry.note}
           </p>
-        )}
+          {entry.follow_up_at && (
+            <p className="mt-2.5 inline-flex items-center gap-1.5 rounded-[4px] bg-flag-soft px-2 py-1 font-mono text-xs leading-none font-medium text-flag-ink">
+              <CalendarClock aria-hidden className="size-3.5" strokeWidth={ICON_STROKE} />
+              Follow-up set for {formatDateTime(entry.follow_up_at)}
+            </p>
+          )}
+        </div>
       </div>
     </li>
   );

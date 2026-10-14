@@ -8,9 +8,9 @@ interface EmptyStateProps {
 
 export function EmptyState({ filtered, onClear, onAdd }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-start gap-4 rounded-2xl bg-surface p-8 shadow-surface">
+    <div className="flex flex-col items-start gap-4 rounded-lg border border-rule bg-surface p-8">
       <div>
-        <h2 className="font-display text-xl font-semibold tracking-tight">
+        <h2 className="font-display text-[28px] leading-none font-semibold">
           {filtered ? "No leads match" : "No leads yet"}
         </h2>
         <p className="mt-1 max-w-[55ch] text-ink-muted">

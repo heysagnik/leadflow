@@ -82,7 +82,10 @@ export function LeadBoard() {
             setNotice(`${name} added to your leads.`);
           }}
         />
-        <p role="status" className={`text-sm font-medium text-accent-strong ${notice ? "pt-3" : ""}`}>
+        <p
+          role="status"
+          className={`text-sm font-medium text-accent-strong ${notice ? "pt-3" : ""}`}
+        >
           {notice}
         </p>
       </div>

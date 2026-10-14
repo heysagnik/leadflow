@@ -77,7 +77,7 @@ export function AddLeadPanel({ open, onClose, onCreated }: AddLeadPanelProps) {
           onKeyDown={(event) => event.key === "Escape" && cancel()}
           noValidate
           aria-label="Add a new lead"
-          className="m-px flex flex-col gap-4 rounded-lg border border-rule-strong bg-surface p-5"
+          className="m-1 mt-2 flex flex-col gap-4 rounded-2xl bg-surface p-5 shadow-surface"
         >
           <div className="grid gap-4 sm:grid-cols-[1.4fr_1fr_1fr]">
             <TextField
@@ -106,7 +106,7 @@ export function AddLeadPanel({ open, onClose, onCreated }: AddLeadPanelProps) {
             />
           </div>
           {createLead.isError && (
-            <p role="alert" className="font-medium text-danger">
+            <p role="alert" className="text-sm text-danger">
               {createLead.error.message}
             </p>
           )}

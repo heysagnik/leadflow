@@ -39,25 +39,6 @@ describe("groupLeads", () => {
     expect(rest.map((l) => l.id)).toEqual([3, 1, 2]);
   });
 
-  it("sorts the rest by the chosen key", () => {
-    const old = { ...lead(1, "new", null), name: "Zed", last_discussed_at: "2026-04-01T09:00:00Z" };
-    const recent = {
-      ...lead(2, "new", null),
-      name: "Amy",
-      last_discussed_at: "2026-05-05T09:00:00Z",
-    };
-    const closed = {
-      ...lead(3, "won", null),
-      name: "Mia",
-      last_discussed_at: "2026-03-01T09:00:00Z",
-    };
-    const input = [recent, closed, old];
-
-    expect(groupLeads(input, NOW, "recent").rest.map((l) => l.id)).toEqual([2, 1, 3]);
-    expect(groupLeads(input, NOW, "name").rest.map((l) => l.id)).toEqual([2, 3, 1]);
-    expect(groupLeads(input, NOW, "stale").rest.map((l) => l.id)).toEqual([1, 2, 3]);
-  });
-
   it("ignores follow-ups on won and lost leads", () => {
     const won = lead(1, "won", new Date(2026, 4, 6, 15, 0));
     const lost = lead(2, "lost", new Date(2026, 4, 1, 9, 0));

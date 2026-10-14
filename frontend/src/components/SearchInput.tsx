@@ -3,6 +3,7 @@
 import { Search, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { ICON_STROKE } from "@/lib/constants";
+import { FIELD_CLASS } from "./ui/TextField";
 
 interface SearchInputProps {
   value: string;
@@ -44,10 +45,10 @@ export function SearchInput({ value, onChange }: SearchInputProps) {
         autoComplete="off"
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        placeholder="Search name or company"
-        className="on-bar min-h-10 w-full rounded-md bg-surface pr-16 pl-9 text-[15px] text-ink placeholder:text-ink-muted focus:outline-2 focus:outline-offset-1 focus:outline-flag [&::-webkit-search-cancel-button]:hidden"
+        placeholder="Search by name or company  ( / )"
+        className={`${FIELD_CLASS} pr-10 pl-9 [&::-webkit-search-cancel-button]:hidden`}
       />
-      {value ? (
+      {value && (
         <button
           type="button"
           aria-label="Clear search"
@@ -55,17 +56,10 @@ export function SearchInput({ value, onChange }: SearchInputProps) {
             onChange("");
             inputRef.current?.focus();
           }}
-          className="absolute top-1/2 right-1 grid size-8 -translate-y-1/2 cursor-pointer place-items-center rounded text-ink-muted transition-[background-color,color] duration-150 hover:bg-wash hover:text-ink"
+          className="absolute top-1/2 right-1 grid size-8 -translate-y-1/2 cursor-pointer place-items-center rounded-lg text-ink-muted transition-[background-color,color] duration-150 hover:bg-paper-deep hover:text-ink"
         >
           <X aria-hidden className="size-4" strokeWidth={ICON_STROKE} />
         </button>
-      ) : (
-        <kbd
-          aria-hidden
-          className="pointer-events-none absolute top-1/2 right-2.5 hidden -translate-y-1/2 rounded border border-rule-strong px-1.5 py-0.5 font-mono text-[11px] text-ink-muted sm:block"
-        >
-          /
-        </kbd>
       )}
     </div>
   );

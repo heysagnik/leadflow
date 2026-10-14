@@ -40,7 +40,14 @@ class UTCDateTime(TypeDecorator[datetime]):
 
 def build_engine(url: str) -> Engine:
     if not url.startswith(SQLITE_PREFIX):
-        return create_engine(url, pool_pre_ping=True)
+        # prepare_threshold=None keeps psycopg compatible with PgBouncer (Neon's pooled endpoint).
+        return create_engine(
+            url,
+            pool_pre_ping=True,
+            pool_size=2,
+            max_overflow=3,
+            connect_args={"prepare_threshold": None},
+        )
 
     in_memory = url in IN_MEMORY_URLS
     if not in_memory:

@@ -53,11 +53,35 @@ Open <http://localhost:3000>. The Next.js server proxies `/api/*` to `http://loc
 
 | Variable | Used by | Default |
 |---|---|---|
-| `DATABASE_URL` | api | `sqlite:///./data/leadflow.db` |
+| `DATABASE_URL` | api | `sqlite:///./data/leadflow.db`; any `postgres://` / `postgresql://` URL (for example Neon) also works |
 | `CORS_ORIGINS` | api | `["http://localhost:3000"]` |
 | `API_INTERNAL_URL` | web (build/start) | `http://localhost:8000` |
 
 See [.env.example](.env.example).
+
+## Deploy to Vercel with Neon
+
+Two Vercel projects from this repo (the API and the web app) plus a Neon Postgres database.
+
+**1. Database (Neon).** Create a project at <https://neon.com> and copy two connection strings from the **Connect** dialog:
+- the **direct** string (toggle *Connection pooling* off), used once to migrate and seed;
+- the **pooled** string (hostname contains `-pooler`), used by the deployed API.
+
+**2. Migrate and seed (once, from your machine).** Use the direct string:
+
+```bash
+cd backend
+DATABASE_URL="postgresql://USER:PASSWORD@HOST/DB?sslmode=require" alembic upgrade head
+DATABASE_URL="postgresql://USER:PASSWORD@HOST/DB?sslmode=require" python -m app.seed
+```
+
+On Windows PowerShell set `$env:DATABASE_URL = "..."` first. Seeding is optional and skips itself if leads already exist.
+
+**3. API project.** In Vercel choose *Add New Project*, import the repo, and set **Root Directory** to `backend`. Vercel detects the FastAPI app at `app/main.py`. Add the environment variable `DATABASE_URL` with the **pooled** string. Deploy and note the URL, for example `https://leadflow-api.vercel.app`. Check `/health` and `/docs`.
+
+**4. Web project.** Import the repo again, set **Root Directory** to `frontend`, and add `API_INTERNAL_URL` set to the API URL from step 3 (no trailing slash). Deploy. The browser only talks to the web app; Next.js proxies `/api/*` to the API, so CORS is not involved. If you change `API_INTERNAL_URL`, redeploy because rewrites are fixed at build time.
+
+Notes: the first request after idle can be slow (function and Neon compute cold starts). The Docker Compose setup keeps using SQLite and is unaffected.
 
 ## API
 
@@ -99,6 +123,6 @@ This project was built with Claude Code (Claude Sonnet 5.5). The AI wrote the co
 
 ## Decisions and trade-offs
 
-- SQLite keeps setup to zero accounts; SQL is portable, so Postgres is a `DATABASE_URL` change.
+- SQLite keeps local setup to zero accounts; SQL is portable, and the same code runs on Postgres (Neon in production) by changing `DATABASE_URL`. The test suite also passes against a real Postgres via `TEST_DATABASE_URL`.
 - The list endpoint returns all matching leads without pagination, which suits the single-screen scope.
 - "Today's follow-ups" are computed in the browser so they follow the rep's timezone.

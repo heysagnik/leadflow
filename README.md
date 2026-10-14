@@ -76,9 +76,9 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST/DB?sslmode=require" python -m app.
 
 On Windows PowerShell set `$env:DATABASE_URL = "..."` first. Seeding is optional and skips itself if leads already exist.
 
-**3. Vercel project.** Import the repo with **Root Directory** left at the repository root (Vercel reads `vercel.json`). Add the environment variable `DATABASE_URL` with the **pooled** string and deploy. Check `/api/v1/leads` and the home page.
+**3. Vercel project.** Import the repo with **Root Directory** left at the repository root (Vercel reads `vercel.json`). Add the environment variable `DATABASE_URL` with the **pooled** string and deploy. Check the home page, `/health` and `/docs`.
 
-Only `/api/*` is public on the API: `/health` and `/docs` are not routed by the config. Run `vercel dev` to try both services locally, with `DATABASE_URL` set.
+The API serves `/api/*`, plus `/health`, `/docs` (Swagger UI), `/redoc` and `/openapi.json`. Run `vercel dev` to try both services locally, with `DATABASE_URL` set.
 
 Notes: the first request after idle can be slow (function and Neon compute cold starts). `API_INTERNAL_URL` and the Next.js rewrite are only used for local dev and Docker Compose, which keep using SQLite.
 

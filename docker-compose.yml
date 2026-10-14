@@ -3,7 +3,6 @@ services:
     build: ./backend
     environment:
       DATABASE_URL: sqlite:////app/data/leadflow.db
-      CORS_ORIGINS: '["http://localhost:3000"]'
     volumes:
       - leadflow-data:/app/data
     ports:

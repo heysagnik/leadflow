@@ -47,10 +47,6 @@ export function isDueToday(iso: string, now: Date): boolean {
   return isSameLocalDay(new Date(iso), now);
 }
 
-export function formatTime(iso: string): string {
-  return timeFormat.format(new Date(iso));
-}
-
 export function formatDateTime(iso: string): string {
   return dateTimeFormat.format(new Date(iso));
 }

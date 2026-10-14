@@ -27,7 +27,7 @@ LeadFlow is a single-screen lead management tool: a lead list (status badges, la
 leadflow/
   AGENT.md  README.md  docker-compose.yml  .env.example  Makefile
   backend/app/
-    main.py          app factory, CORS, router mounting, exception handlers
+    main.py          app factory, router mounting, exception handlers
     core/            config.py, db.py, errors.py
     models/          SQLAlchemy models (Lead, Discussion)
     schemas/         Pydantic request/response models

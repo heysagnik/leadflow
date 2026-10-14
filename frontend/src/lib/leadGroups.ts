@@ -2,7 +2,7 @@ import { isClosed } from "./status";
 import { isDueToday, isOverdue } from "./time";
 import type { LeadSummary } from "./types";
 
-export interface LeadGroups {
+interface LeadGroups {
   dueToday: LeadSummary[];
   rest: LeadSummary[];
 }

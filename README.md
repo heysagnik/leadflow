@@ -54,10 +54,9 @@ Open <http://localhost:3000>. The Next.js server proxies `/api/*` to `http://loc
 | Variable | Used by | Default |
 |---|---|---|
 | `DATABASE_URL` | api | `sqlite:///./data/leadflow.db`; any `postgres://` / `postgresql://` URL (for example Neon) also works |
-| `CORS_ORIGINS` | api | `["http://localhost:3000"]` |
 | `API_INTERNAL_URL` | web (build/start) | `http://localhost:8000` |
 
-See [.env.example](.env.example).
+Examples: [backend/.env.example](backend/.env.example) and [frontend/.env.example](frontend/.env.example). Both variables are optional locally; the defaults work out of the box.
 
 ## Deploy to Vercel with Neon
 
@@ -79,7 +78,7 @@ On Windows PowerShell set `$env:DATABASE_URL = "..."` first. Seeding is optional
 
 **3. API project.** In Vercel choose *Add New Project*, import the repo, and set **Root Directory** to `backend`. Vercel detects the FastAPI app at `app/main.py`. Add the environment variable `DATABASE_URL` with the **pooled** string. Deploy and note the URL, for example `https://leadflow-api.vercel.app`. Check `/health` and `/docs`.
 
-**4. Web project.** Import the repo again, set **Root Directory** to `frontend`, and add `API_INTERNAL_URL` set to the API URL from step 3 (no trailing slash). Deploy. The browser only talks to the web app; Next.js proxies `/api/*` to the API, so CORS is not involved. If you change `API_INTERNAL_URL`, redeploy because rewrites are fixed at build time.
+**4. Web project.** Import the repo again, set **Root Directory** to `frontend`, and add `API_INTERNAL_URL` set to the API URL from step 3 (no trailing slash). Deploy. The browser only talks to the web app; Next.js proxies `/api/*` to the API, so the API needs no CORS configuration. If you change `API_INTERNAL_URL`, redeploy because rewrites are fixed at build time.
 
 Notes: the first request after idle can be slow (function and Neon compute cold starts). The Docker Compose setup keeps using SQLite and is unaffected.
 

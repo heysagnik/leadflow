@@ -54,13 +54,13 @@ Open <http://localhost:3000>. The Next.js server proxies `/api/*` to `http://loc
 | Variable | Used by | Default |
 |---|---|---|
 | `DATABASE_URL` | api | `sqlite:///./data/leadflow.db`; any `postgres://` / `postgresql://` URL (for example Neon) also works |
-| `API_INTERNAL_URL` | web (build/start) | `http://localhost:8000` |
+| `API_INTERNAL_URL` | web (local dev and Docker only) | `http://localhost:8000` |
 
 Examples: [backend/.env.example](backend/.env.example) and [frontend/.env.example](frontend/.env.example). Both variables are optional locally; the defaults work out of the box.
 
 ## Deploy to Vercel with Neon
 
-Two Vercel projects from this repo (the API and the web app) plus a Neon Postgres database.
+One Vercel project with two services (declared in [vercel.json](vercel.json)) plus a Neon Postgres database. `/api/*` goes to the FastAPI service and everything else to the Next.js service, on one domain. Neither service calls the other server-side, so no service bindings are needed, and the browser keeps calling `/api/v1/...` on its own origin.
 
 **1. Database (Neon).** Create a project at <https://neon.com> and copy two connection strings from the **Connect** dialog:
 - the **direct** string (toggle *Connection pooling* off), used once to migrate and seed;
@@ -76,26 +76,11 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST/DB?sslmode=require" python -m app.
 
 On Windows PowerShell set `$env:DATABASE_URL = "..."` first. Seeding is optional and skips itself if leads already exist.
 
-**3. API project.** In Vercel choose *Add New Project*, import the repo, and set **Root Directory** to `backend`. Vercel detects the FastAPI app at `app/main.py`. Add the environment variable `DATABASE_URL` with the **pooled** string. Deploy and note the URL, for example `https://leadflow-api.vercel.app`. Check `/health` and `/docs`.
+**3. Vercel project.** Import the repo with **Root Directory** left at the repository root (Vercel reads `vercel.json`). Add the environment variable `DATABASE_URL` with the **pooled** string and deploy. Check `/api/v1/leads` and the home page.
 
-**4. Web project.** Import the repo again, set **Root Directory** to `frontend`, and add `API_INTERNAL_URL` set to the API URL from step 3 (no trailing slash). Deploy. The browser only talks to the web app; Next.js proxies `/api/*` to the API, so the API needs no CORS configuration. If you change `API_INTERNAL_URL`, redeploy because rewrites are fixed at build time.
+Only `/api/*` is public on the API: `/health` and `/docs` are not routed by the config. Run `vercel dev` to try both services locally, with `DATABASE_URL` set.
 
-Notes: the first request after idle can be slow (function and Neon compute cold starts). The Docker Compose setup keeps using SQLite and is unaffected.
-
-## API
-
-All routes are under `/api/v1`. Errors use `{"error": {"code", "message", "details?"}}`.
-
-| Method | Path | Success | Errors |
-|---|---|---|---|
-| GET | `/leads?status=&q=` | 200 | 422 invalid status |
-| POST | `/leads` | 201 (+ `Location`) | 422 |
-| GET | `/leads/{id}` | 200, discussions newest first | 404 |
-| PATCH | `/leads/{id}/status` | 200 | 404, 422 |
-| POST | `/leads/{id}/discussions` | 201 | 404, 409 (follow-up on closed lead), 422 |
-| GET | `/health` | 200 | |
-
-Saving a discussion with `follow_up_at` updates the lead's `follow_up_at` in the same transaction. Datetimes are UTC; the browser converts to and from local time, so "today" means the rep's local day.
+Notes: the first request after idle can be slow (function and Neon compute cold starts). `API_INTERNAL_URL` and the Next.js rewrite are only used for local dev and Docker Compose, which keep using SQLite.
 
 ## Tests and checks
 

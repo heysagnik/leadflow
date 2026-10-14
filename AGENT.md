@@ -16,7 +16,7 @@ LeadFlow is a single-screen lead management tool: a lead list (status badges, la
 | Forms | react-hook-form + zod |
 | Backend | FastAPI, Pydantic v2, Python 3.12 |
 | DB | SQLAlchemy 2.0 + Alembic. SQLite locally; Neon Postgres in production (psycopg 3). Keep SQL portable so both work, and run the API tests against Postgres via `TEST_DATABASE_URL` when touching models or queries |
-| Hosting | Vercel: `backend/` (FastAPI) and `frontend/` (Next.js) as two projects |
+| Hosting | One Vercel project with two services declared in root `vercel.json`: `backend` (FastAPI, public at `/api/*`) and `frontend` (Next.js, everything else) |
 | Tests | pytest + httpx (API); Vitest + Testing Library (UI) |
 | Lint/format/types | ruff + mypy --strict (API); ESLint + Prettier + `tsc --noEmit` (web) |
 | Delivery | Docker Compose (web + api), `.env.example`, seed script |
